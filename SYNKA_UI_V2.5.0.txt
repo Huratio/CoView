@@ -1,0 +1,14 @@
+SYNKA UI REDESIGN
+
+- Rebranded visible application UI from CoView to Synka.
+- Uses the supplied Synka logo only; no logo + wordmark in the main home header or splash.
+- Dark production palette: #050505 background, #0C0C0C/#0D0D0D surfaces, #28282A buttons, #1D1D1D borders, #FFFFFF/#D8D8DA/#8A8A8F text.
+- Removed green/teal/cyan/purple/blue UI accents from the default production presentation.
+- Reworked the join screen, profile picker, room screen, player settings, and room chat presentation to the supplied premium black/charcoal style.
+- Room media switching is always visible through Local Video / Watch From Link / Upload to Server / Watch Movies cards; no Change Media control is placed over the player.
+- Share action is removed from the room action row.
+- Audio Call is present but disabled.
+- Player utility controls remain functional and are kept compact/aligned.
+- Watch From Link / YouTube implementation was not rewritten as part of this UI pass.
+- Synchronization implementation was not rewritten as part of this UI pass.
+- PiP / fullscreen / player control behavior was not intentionally changed.

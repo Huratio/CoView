@@ -1,0 +1,7 @@
+CoView v2.3.1 fixes the v2.3.0 Java compile errors reported by Gradle.
+
+Fixed:
+- Theme dialog reference used before AlertDialog declaration.
+- mediaChooserOverlay declared as View while addView() was called on it.
+
+Protected from v2.2.4: synchronization methods initPlayer(), sendSync(), applySync(), SyncService.java, YouTube playback/fullscreen architecture.

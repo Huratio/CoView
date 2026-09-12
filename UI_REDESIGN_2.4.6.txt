@@ -1,0 +1,10 @@
+CoView v2.4.6 - Room Media Switching UI
+
+- Removed the room-level three-dot menu from the main room UI.
+- Removed the redundant Room > Close/Player Settings menu path from normal use.
+- Added an always-visible, compact Change media action.
+- Added discoverable Local / Link / Movies source controls below the media status.
+- Kept the room connection independent of media selection.
+- Kept synchronization, YouTube, fullscreen, PIP, player settings, and existing media/player code unchanged.
+- Initial no-media chooser remains inside the player area and uses a compact layout.
+- No new sync/player architecture was introduced.

@@ -1,0 +1,16 @@
+CoView v2.0.2
+
+BUILD FIX
+- Fixed patchNewPipeForAndroid11 failing because newPipeOriginal is transitive and therefore contains multiple files.
+- The task now explicitly selects the single NewPipeExtractor JAR.
+- Transitive dependencies remain available to the app while the original unpatched NewPipeExtractor JAR is excluded from runtime.
+- Version: 2.0.2, versionCode 24.
+
+DEVELOPER SETTINGS
+- Settings -> Developer Settings.
+- Developer mode toggle.
+- Dual Space / test instance label: appends [Clone A], [Clone B], etc. to the username when joining.
+- Optional diagnostics visibility and verbose resolver errors.
+
+SYNC
+- initPlayer(), sendSync(), and applySync() are preserved from the v1.7.1 baseline.

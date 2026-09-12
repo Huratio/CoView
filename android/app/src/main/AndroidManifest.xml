@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <application android:usesCleartextTraffic="true" android:allowBackup="true" android:label="Synka" android:icon="@drawable/synka_icon" android:roundIcon="@drawable/synka_icon" android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity" android:screenOrientation="unspecified" android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden" android:resizeableActivity="true" android:launchMode="singleTop" android:supportsPictureInPicture="true" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <service android:name=".SyncService" android:exported="false" android:foregroundServiceType="dataSync" />
+        <service android:name=".SyncServiceTest2" android:exported="false" android:process=":test2" android:foregroundServiceType="dataSync" />
+    </application>
+</manifest>
