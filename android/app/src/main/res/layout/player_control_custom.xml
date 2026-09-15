@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false">
+
+    <!-- One bottom control surface. Keeping transport, timeline and utility
+         controls in the same vertical container prevents overlap on small screens. -->
+    <LinearLayout
+        android:id="@+id/coview_control_surface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#B8000000"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@id/exo_rew"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Rewind 10 seconds"
+                android:padding="10dp"
+                android:src="@drawable/ic_replay_10" />
+
+            <!-- Media3 expects separate exo_play/exo_pause IDs. They intentionally
+                 occupy one slot and are mutually toggled by PlayerControlView. -->
+            <FrameLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp">
+
+                <ImageButton
+                    android:id="@id/exo_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Play"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_play" />
+
+                <ImageButton
+                    android:id="@id/exo_pause"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Pause"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_pause"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@id/exo_ffwd"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Forward 10 seconds"
+                android:padding="10dp"
+                android:src="@drawable/ic_forward_10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/exo_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <androidx.media3.ui.DefaultTimeBar
+                android:id="@id/exo_progress"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
+                android:layout_weight="1"
+                android:minWidth="0dp" />
+
+            <TextView
+                android:id="@id/exo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/coview_utility_row"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/coview_volume"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Volume"
+                android:padding="4dp"
+                android:src="@drawable/ic_audio" />
+
+            <SeekBar
+                android:id="@+id/coview_volume_seek"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:minWidth="56dp"
+                android:max="100"
+                android:progress="100"
+                android:contentDescription="Volume level" />
+
+            <ImageButton
+                android:id="@+id/coview_subtitle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Captions"
+                android:padding="4dp"
+                android:src="@drawable/ic_cc" />
+
+            <ImageButton
+                android:id="@+id/coview_fullscreen"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Fullscreen"
+                android:padding="4dp"
+                android:src="@drawable/ic_fullscreen" />
+
+            <ImageButton
+                android:id="@+id/coview_more"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="More player options"
+                android:padding="4dp"
+                android:src="@drawable/ic_more" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
