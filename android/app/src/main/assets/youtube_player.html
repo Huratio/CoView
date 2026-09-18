@@ -1,0 +1,122 @@
+<!doctype html>
+<html><head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+html,body,#player{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
+iframe{width:100%;height:100%;border:0}
+#coviewControls{
+  position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  display:flex;align-items:center;gap:6px;
+  padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+  box-sizing:border-box;
+  background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.25),transparent);
+  color:#fff;font-family:Arial,sans-serif;
+}
+#coviewControls button{
+  flex:0 0 auto;min-width:42px;height:38px;border:0;border-radius:8px;
+  background:rgba(0,0,0,.58);color:#fff;font-size:14px;font-weight:700;padding:0 8px;
+}
+#coviewControls button:active{background:rgba(255,255,255,.25)}
+#coviewSeek{flex:1 1 auto;min-width:70px;accent-color:#fff}
+#coviewVolume{width:82px;accent-color:#fff}
+</style>
+</head><body><div id="player"></div>
+<div id="coviewControls">
+  <button id="backBtn" type="button">−10</button>
+  <button id="playBtn" type="button">▶</button>
+  <button id="forwardBtn" type="button">+10</button>
+  <input id="coviewSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek">
+  <input id="coviewVolume" type="range" min="0" max="100" value="100" step="1" aria-label="Volume">
+  <button id="fullBtn" type="button">⛶</button>
+</div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+var player=null, ready=false, applying=false, lastSentPos=-1, lastSentPlaying=false, draggingSeek=false;
+function snapshot(kind, force){
+  if(!player||!ready||applying)return;
+  try{
+    var st=player.getPlayerState(), pos=player.getCurrentTime()||0, playing=st===1;
+    if(!force && kind==='heartbeat' && Math.abs(pos-lastSentPos)<1.0 && playing===lastSentPlaying)return;
+    lastSentPos=pos; lastSentPlaying=playing;
+    CoView.state(JSON.stringify({kind:kind||'heartbeat',playing:playing,pos:pos,duration:player.getDuration()||0,remote:false}));
+    updateControls();
+  }catch(e){}
+}
+function updateControls(){
+  if(!player||!ready)return;
+  try{
+    var st=player.getPlayerState(), pos=player.getCurrentTime()||0, dur=player.getDuration()||0;
+    document.getElementById('playBtn').textContent=(st===1)?'❚❚':'▶';
+    if(!draggingSeek && dur>0)document.getElementById('coviewSeek').value=Math.max(0,Math.min(1000,Math.round(pos/dur*1000)));
+    document.getElementById('coviewVolume').value=Math.max(0,Math.min(100,player.isMuted()?0:player.getVolume()));
+  }catch(e){}
+}
+function doPlayPause(){
+  if(!player||!ready)return;
+  try{
+    var st=player.getPlayerState();
+    if(st===1){player.pauseVideo();}
+    else{player.playVideo();}
+  }catch(e){}
+}
+function doSeek(delta){
+  if(!player||!ready)return;
+  try{
+    var target=Math.max(0,(player.getCurrentTime()||0)+delta);
+    player.seekTo(target,true);
+    setTimeout(function(){snapshot('seek',true);},80);
+  }catch(e){}
+}
+function doSeekTo(){
+  if(!player||!ready)return;
+  try{
+    var dur=player.getDuration()||0;
+    if(dur<=0)return;
+    var value=Number(document.getElementById('coviewSeek').value)||0;
+    player.seekTo(dur*(value/1000),true);
+    setTimeout(function(){snapshot('seek',true);},80);
+  }catch(e){}
+}
+function onYouTubeIframeAPIReady(){
+ player=new YT.Player('player',{videoId:'__VIDEO_ID__',playerVars:{playsinline:1,controls:1,rel:0,modestbranding:1,enablejsapi:1},events:{
+  onReady:function(){ready=true;CoView.ready();snapshot('ready',true);updateControls();},
+  onStateChange:function(e){
+    if(applying){updateControls();return;}
+    if(e.data===1)snapshot('play',true);
+    else if(e.data===2)snapshot('pause',true);
+    else if(e.data===0)snapshot('pause',true);
+    updateControls();
+  },
+  onError:function(e){try{CoView.error('YouTube could not play this video (error '+(e.data||'unknown')+').');}catch(x){}}
+ }});
+}
+function coviewSetReady(){ if(ready)try{CoView.ready();}catch(e){} }
+function coviewApply(pos,desiredPlaying,kind){
+ if(!player||!ready)return false;
+ try{
+   var target=Number(pos)||0, current=player.getCurrentTime()||0, diff=Math.abs(current-target), state=player.getPlayerState();
+   var shouldSeek=(kind==='seek'||diff>1.2);
+   var shouldPlay=state!==1&&desiredPlaying;
+   var shouldPause=state===1&&!desiredPlaying;
+   if(!shouldSeek&&!shouldPlay&&!shouldPause){updateControls();return true;}
+   applying=true;
+   if(shouldSeek)player.seekTo(target,true);
+   if(kind==='play' || (kind==='heartbeat'&&desiredPlaying&&state!==1))player.playVideo();
+   else if(kind==='pause' || (kind==='heartbeat'&&!desiredPlaying&&state===1))player.pauseVideo();
+   updateControls();
+   setTimeout(function(){applying=false;lastSentPos=target;lastSentPlaying=desiredPlaying;updateControls();},450);
+   return true;
+ }catch(e){applying=false;return false;}
+}
+function coviewState(){snapshot('heartbeat',true);}
+document.getElementById('backBtn').onclick=function(){doSeek(-10);};
+document.getElementById('playBtn').onclick=function(){doPlayPause();};
+document.getElementById('forwardBtn').onclick=function(){doSeek(10);};
+document.getElementById('fullBtn').onclick=function(){try{CoView.fullscreen();}catch(e){}};
+document.getElementById('coviewSeek').addEventListener('input',function(){draggingSeek=true;});
+document.getElementById('coviewSeek').addEventListener('change',function(){draggingSeek=false;doSeekTo();});
+document.getElementById('coviewVolume').addEventListener('input',function(){
+  try{var v=Number(this.value)||0;if(player){player.unMute();player.setVolume(v);}}catch(e){}
+});
+setInterval(function(){snapshot('heartbeat',false);updateControls();},1000);
+</script></body></html>

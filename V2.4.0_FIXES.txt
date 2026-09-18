@@ -1,0 +1,13 @@
+Synka v2.4.0
+
+Fixes in this build:
+- Reduced media chooser icon sizes and typography; constrained card titles/subtitles so Watch From Link text does not clip or overlap.
+- Removed the duplicate top-right room Chat control; bottom Chat remains.
+- Rebuilt the room header alignment with a proper vector back icon and centered room title/status/count.
+- Rebuilt the custom Media3 player utility controls as compact ImageButtons with consistent sizing and alignment.
+- Replaced the three-dot text glyph with the proper vector More icon.
+- Hardened WhatsApp/share URL extraction and made the Activity singleTop so shared links arrive in the existing room Activity when possible.
+- Improved YouTube WebView loading/origin/referrer configuration and iframe permissions.
+- PIP now accepts either local Media3 video or a ready web video, uses the active renderer for the source rectangle, enables seamless resize where available, and never treats a PIP back action as a room disconnect.
+- Added PIP-related configuration changes to reduce Activity recreation during PIP transitions.
+- Kept the existing room sync protocol and YouTube fullscreen architecture intact.

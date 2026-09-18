@@ -1,0 +1,14 @@
+CoView 2.0.0
+
+Major UX release built on the stable CoView 1.7.1 synchronization core.
+
+New:
+- Messenger-style chat with left/right bubbles, timestamps and typing indicators.
+- 20 unique anime-inspired built-in profile avatars.
+- Custom avatar upload and random avatar selection.
+- Smart online-video loading state and friendly errors.
+- Player PiP and control lock.
+- Room status display, recent rooms, Android Share -> CoView, diagnostics.
+
+Online playback remains serverless and supports public, non-DRM media only.
+NewPipeExtractor 0.24.8 is patched during the Gradle build for the Android 11 URLDecoder API compatibility issue.

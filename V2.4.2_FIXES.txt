@@ -1,0 +1,12 @@
+Synka v2.4.2
+
+Focused repair pass based on v2.4.1 test failures.
+
+1. PIP return layout: room content is restored explicitly to TOP|START with portrait dimensions after PIP, preventing the whole room UI from shifting downward.
+2. Player controls: CC, PIP, lock, fullscreen and settings are placed in the same Media3 controller row as the settings control instead of using an independent overlay. This keeps the controls aligned and makes their hide/show behavior consistent with the player controller.
+3. Player utility icons: reduced padding and kept the vector icons at compact size.
+4. Watch From Link: restored the known-good v2.2.4 YouTube iframe page/base URL behavior, kept YouTube fullscreen support, and added a single load retry/watchdog.
+5. Android share/WhatsApp: ACTION_SEND now checks EXTRA_TEXT, ClipData text/URI and intent data so shared URLs are routed into the same Watch From Link field.
+6. Room/dialog UI: media-card icon/text sizing reduced; room header geometry tightened; dialog window animations disabled so the default gray dialog is not visibly animated into the custom dark styling.
+
+Stable synchronization and existing YouTube fullscreen architecture were not intentionally changed.

@@ -1,0 +1,10 @@
+Synka v2.1.2
+
+YouTube-only synchronization hardening:
+- Play/pause events are sent immediately from the YouTube IFrame API.
+- Remote playback is marked as remote in the page so its resulting events are not echoed back as local actions.
+- Removed the initial-load guard that could swallow the first controller action.
+- Catch-up requests are delayed until the YouTube page is actually ready.
+- State requests use the explicit YouTube bridge state function.
+- Position polling detects meaningful movement without flooding the room.
+- Participant presence remains Online until actual playback begins.

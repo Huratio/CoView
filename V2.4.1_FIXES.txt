@@ -1,0 +1,12 @@
+Synka v2.4.1
+
+Fixes in this revision:
+- Fixed Watch From Link / Open Together button becoming a no-op because the dialog styling listener replaced the link button listener.
+- Kept shared links from WhatsApp and other SEND/VIEW intents flowing into the same Watch From Link path.
+- Fixed the room layout staying vertically centered after returning from Android Picture-in-Picture; normal portrait layout now restores its original gravity, padding, player height, margins, and requests a fresh layout.
+- Reworked the Media3 CC/PIP/Lock/Fullscreen utility controls into one compact horizontal group so their centers and spacing stay consistent beside the native Settings control.
+- Normalized the native player Settings icon alignment/padding.
+- Reduced media chooser icon and typography sizes so card content fits cleanly, especially Watch From Link.
+- Removed the media chooser fade transition; it now appears immediately.
+- Changed dialog styling so the dark custom background is applied before the dialog is shown, preventing the visible gray-to-dark transition.
+- Stable synchronization, media-source protocol, and the existing YouTube fullscreen architecture were not intentionally changed.

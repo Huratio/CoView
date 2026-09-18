@@ -1,0 +1,8 @@
+Synka v1.9.6
+
+Build fix:
+- Removed the unused coreLibraryDesugaring enable flag.
+- v1.9.5 had enabled core library desugaring without adding a desugaring dependency, causing :app:l8DexDesugarLibDebug to fail.
+- NewPipeExtractor remains removed.
+- Online resolver uses OkHttp/public endpoints only.
+- Synchronization logic remains unchanged from the v1.7.1 baseline.
